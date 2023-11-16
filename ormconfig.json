@@ -1,0 +1,112 @@
+[
+  {
+    "name": "sand",
+    "type": "mysql",
+    "host": "coolcatssandbox.crobbjmyg2pc.us-east-1.rds.amazonaws.com",
+    "port": 3306,
+    "username": "admin",
+    "password": "<fried769Batter36watch>",
+    "database": "coolcats",
+    "synchronize": false,
+    "logging": false,
+    "entities": [
+      "src/entity/**/*.ts",
+      "dist/entity/**/*.js"
+    ],
+    "migrations": [
+      "src/migration/**/*.ts"
+    ],
+    "cli": {
+      "entitiesDir": "src/entity",
+      "migrationsDir": "src/migration"
+    }
+  },
+  {
+    "name": "dev",
+    "type": "mysql",
+    "host": "127.0.0.1",
+    "port": 3333,
+    "username": "devuser",
+    "password": "Fried769Batter36watch",
+    "database": "coolcatsmysqldev",
+    "synchronize": false,
+    "logging": false,
+    "entities": [
+      "src/entity/**/*.ts",
+      "dist/entity/**/*.js"
+    ],
+    "migrations": [
+      "src/migration/**/*.ts"
+    ],
+    "cli": {
+      "entitiesDir": "src/entity",
+      "migrationsDir": "src/migration"
+    }
+  },
+  {
+    "name": "beta",
+    "type": "mysql",
+    "host": "127.0.0.1",
+    "port": 3335,
+    "username": "betauser",
+    "password": "Fried769Batter36watch",
+    "database": "coolcatsmysqlbeta",
+    "synchronize": false,
+    "logging": false,
+    "entities": [
+      "src/entity/**/*.ts",
+      "dist/entity/**/*.js"
+    ],
+    "migrations": [
+      "src/migration/**/*.ts"
+    ],
+    "cli": {
+      "entitiesDir": "src/entity",
+      "migrationsDir": "src/migration"
+    }
+  },
+  {
+    "name": "stage",
+    "type": "mysql",
+    "host": "127.0.0.1",
+    "port": 3339,
+    "username": "stageuser",
+    "password": "Fried769Batter36watch",
+    "database": "coolcatsmysqlstage",
+    "synchronize": false,
+    "logging": false,
+    "entities": [
+      "src/entity/**/*.ts",
+      "dist/entity/**/*.js"
+    ],
+    "migrations": [
+      "src/migration/**/*.ts"
+    ],
+    "cli": {
+      "entitiesDir": "src/entity",
+      "migrationsDir": "src/migration"
+    }
+  },
+  {
+    "name": "LIVE-production",
+    "type": "mysql",
+    "host": "127.0.0.1",
+    "port": 3334,
+    "username": "produser",
+    "password": "Fried769Batter36watch",
+    "database": "coolcatsmysqlprod",
+    "synchronize": false,
+    "logging": false,
+    "entities": [
+      "src/entity/**/*.ts",
+      "dist/entity/**/*.js"
+    ],
+    "migrations": [
+      "src/migration/**/*.ts"
+    ],
+    "cli": {
+      "entitiesDir": "src/entity",
+      "migrationsDir": "src/migration"
+    }
+  }
+]

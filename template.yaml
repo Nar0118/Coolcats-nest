@@ -1,0 +1,86 @@
+# https://github.com/awslabs/serverless-application-model/blob/develop/versions/2016-10-31.md
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: coolcats-api
+
+Globals:
+  Function:
+    Timeout: 60
+    Environment:
+      Variables:
+        AWS_DEPLOYMENT_REGION: 'us-east-1'
+        SECRETS_MANAGER_ENDPOINT: 'https://secretsmanager.us-east-1.amazonaws.com'
+        MAINNET_PROVIDER: 'wss://eth-mainnet.alchemyapi.io/v2/zBIO6s7JqU--eZoYdtAeRkkZAG6vX3GW'
+        RINKEBY_PROVIDER: 'wss://eth-rinkeby.alchemyapi.io/v2/OVgPMlT89-wcnuGmIITZgqj4HyYoCjPQ'
+        MAINNET_POLYGON_PROVIDER: 'wss://polygon-mainnet.g.alchemy.com/v2/bucjE065uufVrWMxnev83HculyRokHBp'
+        MUMBAI_POLYGON_PROVIDER: 'wss://polygon-mumbai.g.alchemy.com/v2/qZrZnrRSmALWX9OPIGyin5q5OiJ7Wdhp'
+        SYSTEM_WALLET_SECRET: 'SystemWallet'
+        DATABASE_SECRET: 'Prod'
+
+  Api:
+    Cors:
+      AllowOrigin: "'*'"
+      AllowHeaders: "'Content-Type'"
+      AllowMethods: "'*'"
+
+Resources:
+
+  CoolcatsApiGateway:
+    DependsOn: RestFunction
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: Gateway Endpoint Coolcats REST Api
+      StageName: Dev
+
+  RestFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: lambda.handler
+      CodeUri: dist
+      Runtime: nodejs12.x
+      Timeout: 120
+      Policies:
+        - AmazonRDSFullAccess
+        - SecretsManagerReadWrite
+        - AmazonRDSDataFullAccess
+        - AmazonVPCFullAccess
+        - AWSLambdaVPCAccessExecutionRole
+        - AmazonS3ObjectLambdaExecutionRolePolicy
+        - SQSSendMessagePolicy:
+            QueueName: "*"
+      VpcConfig:
+        SubnetIds: [ subnet-0bf12c210a078297f, subnet-07da6e4da7effb30e, subnet-0d808b3c1da744e2c, subnet-0c693097189b49bc6, subnet-082335c11f647d19b, subnet-06c517e0c53ed88ae ]
+        SecurityGroupIds: [ sg-0b54fa126c95de51e ]
+      Events:
+        AnyGet:
+          Type: Api
+          Properties:
+            RestApiId: !Ref CoolcatsApiGateway
+            Path: /{any+}
+            Method: get
+        AnyPost:
+          Type: Api
+          Properties:
+            RestApiId: !Ref CoolcatsApiGateway
+            Path: /{any+}
+            Method: post
+        AnyPatch:
+          Type: Api
+          Properties:
+            RestApiId: !Ref CoolcatsApiGateway
+            Path: /{any+}
+            Method: patch
+        AnyDelete:
+          Type: Api
+          Properties:
+            RestApiId: !Ref CoolcatsApiGateway
+            Path: /{any+}
+            Method: delete
+
+Outputs:
+  CoolcatsApiGateway:
+    Description: "API Gateway endpoint URL for Cool Cats REST API"
+    Value: !Sub "https://${CoolcatsApiGateway}.execute-api.${AWS::Region}.amazonaws.com/Dev/"
+  RestFunction:
+    Description: "RestFunction Lambda Function ARN"
+    Value: !GetAtt RestFunction.Arn
